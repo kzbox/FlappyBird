@@ -1,1 +1,1 @@
-# This project is a game like "Flappy Bird"
+# Making a game like "Flappy Bird"

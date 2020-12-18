@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // Main
-public class FlappyBird extends JFrame {
+class FlappyBird extends JFrame {
     private ModelObservable model;
     private ViewPanel view;
     private Controller cont;

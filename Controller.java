@@ -19,7 +19,11 @@ class Controller implements MouseListener, KeyListener{
     public void mouseReleased(MouseEvent e){ }
     public void mouseEntered(MouseEvent e){ }
     public void mouseExited(MouseEvent e){ }
-    public void keyPressed(KeyEvent e){ }
+    public void keyPressed(KeyEvent e){ 
+        model.setStartFlag();
+        model.setT(0);
+        model.bird.setY0asY();
+    }
     public void keyReleased(KeyEvent e){ }
     public void keyTyped(KeyEvent e){ }
 }

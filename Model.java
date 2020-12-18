@@ -12,19 +12,16 @@ abstract class Thing {
         width = w; height = h;
     }
     abstract public void draw(Graphics g);
-    // get�n���\�b�h
+    // get系
     double getX()     { return x; }
     double getY()     { return y; }
     double getWidth() { return width;  }
     double getHeight(){ return height; }
-    // set�n���\�b�h
+    // set系
     void setX(double x)     { this.x = x; }
     void setY(double y)     { this.y = y; }
     void setWidth(double w) { width  = w; }
     void setHeight(double h){ height = h; }
-    // add�n���\�b�h
-    void addX(double x){ this.x += x; }
-    void addY(double y){ this.y += y; }
 }
 class Bird extends Thing {
     public final static double V0 = 49;

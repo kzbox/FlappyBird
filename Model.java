@@ -24,10 +24,10 @@ abstract class Thing {
     void setHeight(double h){ height = h; }
 }
 class Bird extends Thing {
-    public final static double V0 = 49;
-    public final static double GRAVITY = 23;
-    public final static int BIRD_WIDTH = 30, BIRD_HEIGHT = 30;
-    private double y0;
+    public final static double V0 = 49; // 鳥の上向きの初速
+    public final static double GRAVITY = 23; // 鳥に働く重力
+    public final static int BIRD_WIDTH = 30, BIRD_HEIGHT = 30; // 鳥の大きさ
+    private double y0; // クリックした鳥の高さ
     public Bird(double x, double y){
         super(x, y, BIRD_WIDTH, BIRD_HEIGHT);
         y0 = y;
@@ -62,7 +62,7 @@ class Dokan extends Thing {
 
 class ModelObservable extends Observable implements ActionListener{
     public final static int SCREEN_WIDTH = 400, SCREEN_HEIGHT = 800;
-    public final static int MAX_DOKAN_NUM = 15;
+    public final static int DOKAN_BUF = 3; // 土管が同時に表示される数
     public final static int FPS = 100;
     public final static int SPEED = 2;
     private final static int HABA = 130;
@@ -73,7 +73,6 @@ class ModelObservable extends Observable implements ActionListener{
     private double t;
     private boolean startFlag;
     private boolean gameOverFlag;
-    private int focusDokanIndex;
     private java.util.Random rand;
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
@@ -82,7 +81,7 @@ class ModelObservable extends Observable implements ActionListener{
         upperDokan = new ArrayList<Dokan>();
         lowerDokan = new ArrayList<Dokan>();
         rand = new java.util.Random();
-        for(int i=0; i < MAX_DOKAN_NUM; i++){
+        for(int i=0; i < DOKAN_BUF; i++){
             int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
             upperDokan.add(new Dokan(360 + i*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
             lowerDokan.add(new Dokan(360 + i*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
@@ -90,18 +89,16 @@ class ModelObservable extends Observable implements ActionListener{
         t = 0;
         startFlag = false;
         gameOverFlag = false;
-        focusDokanIndex = 0;
     }
-    private boolean isIn(int index){ // �ڋ߂��Ă���y�ǂ�index������
-        Dokan udokan = upperDokan.get(index);
-        Dokan ldokan = lowerDokan.get(index);
+    private boolean isIn(){ // 近くにある土管のインデックス
+        Dokan udokan = upperDokan.get(0);
+        Dokan ldokan = lowerDokan.get(0);
         double dokanX = udokan.getX();
         double dokanW = udokan.getWidth();
         double birdX = bird.getX();
         double birdW = bird.getWidth();
 
         if(birdX+birdW > dokanX && birdX < dokanX+dokanW){
-            // return true;
             double udokanH = udokan.getHeight();
             double ldokanH = ldokan.getY();
             double birdY = bird.getY();
@@ -116,14 +113,25 @@ class ModelObservable extends Observable implements ActionListener{
         if(bird.getY() > SCREEN_HEIGHT){
             return true;
         }
-        Dokan focusDokan = upperDokan.get(focusDokanIndex);
-        if(focusDokan.getX() + focusDokan.getWidth() < bird.getX()){
-            focusDokanIndex++;
-        }
-        return isIn(focusDokanIndex);
+        return isIn();
     }
     private void calcBirdPos(){
         bird.setY(bird.getY0() - bird.V0*t + bird.GRAVITY*t*t/2);
+    }
+    private void updateDokan(){
+        // 土管の左にずらす
+        for(int i = 0; i < DOKAN_BUF; i++){
+            upperDokan.get(i).moveDokan(SPEED);
+            lowerDokan.get(i).moveDokan(SPEED);
+        }
+        // 土管がカメラの左側に流れたら土管を消して右側に追加
+        if(upperDokan.get(0).getX() + upperDokan.get(0).getWidth() < 0){
+            upperDokan.remove(0);
+            lowerDokan.remove(0);
+            int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
+            upperDokan.add(new Dokan(360 + 2*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
+            lowerDokan.add(new Dokan(360 + 2*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
+        }
     }
     public void setT(double time){
         t = time;
@@ -137,13 +145,12 @@ class ModelObservable extends Observable implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(startFlag){
             t += (double)10/FPS;
-            calcBirdPos();
-            for(int i = 0; i < MAX_DOKAN_NUM; i++){
-                upperDokan.get(i).moveDokan(SPEED);
-                lowerDokan.get(i).moveDokan(SPEED);
-            }
             if(isGameOver()){
                 gameOverFlag = true;
+            }
+            else{
+                calcBirdPos();
+                updateDokan();
             }
         }
         setChanged();

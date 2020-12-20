@@ -20,7 +20,7 @@ class ViewPanel extends JPanel implements Observer {
             g.fillRect(100, 100, 200, 200);
         }
         model.bird.draw(g);
-        for(int i = 0; i < model.MAX_DOKAN_NUM; i++){
+        for(int i = 0; i < model.DOKAN_BUF; i++){
             model.upperDokan.get(i).draw(g);
             model.lowerDokan.get(i).draw(g);
         }

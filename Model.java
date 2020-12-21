@@ -65,7 +65,7 @@ class ModelObservable extends Observable implements ActionListener{
     public final static int DOKAN_BUF = 3; // 土管が同時に表示される数
     public final static int FPS = 100;
     public final static int SPEED = 2;
-    private final static int HABA = 130;
+    private final static int HABA = 230;
     public Bird bird;
     public ArrayList<Dokan> upperDokan;
     public ArrayList<Dokan> lowerDokan;
@@ -73,6 +73,8 @@ class ModelObservable extends Observable implements ActionListener{
     private double t;
     private boolean startFlag;
     private boolean gameOverFlag;
+    private boolean scoreFlag;
+    private int score;
     private java.util.Random rand;
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
@@ -89,6 +91,8 @@ class ModelObservable extends Observable implements ActionListener{
         t = 0;
         startFlag = false;
         gameOverFlag = false;
+        score = 0;
+        scoreFlag = false;
     }
     private boolean isIn(){ // 近くにある土管のインデックス
         Dokan udokan = upperDokan.get(0);
@@ -131,6 +135,16 @@ class ModelObservable extends Observable implements ActionListener{
             int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
             upperDokan.add(new Dokan(360 + 2*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
             lowerDokan.add(new Dokan(360 + 2*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
+            // スコアフラグを戻す
+            scoreFlag = false;
+        }
+    }
+    private void calcScore(){
+        Dokan dokan = upperDokan.get(0);
+        if(!scoreFlag && dokan.getX() + dokan.getWidth() < bird.getX()){
+            scoreFlag = true;
+            score += 100;
+            System.out.println("current score: " + String.valueOf(score));
         }
     }
     public void setT(double time){
@@ -151,6 +165,7 @@ class ModelObservable extends Observable implements ActionListener{
             else{
                 calcBirdPos();
                 updateDokan();
+                calcScore();
             }
         }
         setChanged();

@@ -23,6 +23,10 @@ class Controller implements MouseListener, KeyListener{
         model.setStartFlag();
         model.setT(0);
         model.bird.setY0asY();
+        if(model.getGameOverFlag()){
+            model.init();
+            System.out.println("---reset---");
+        }
     }
     public void keyReleased(KeyEvent e){ }
     public void keyTyped(KeyEvent e){ }

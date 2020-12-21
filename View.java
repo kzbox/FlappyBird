@@ -13,6 +13,8 @@ class ViewPanel extends JPanel implements Observer {
         cont = co;
         model.addObserver(this);
         this.addMouseListener(cont);
+        this.addKeyListener(cont);
+        this.setFocusable(true);
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);

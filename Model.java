@@ -65,20 +65,23 @@ class ModelObservable extends Observable implements ActionListener{
     public final static int DOKAN_BUF = 3; // 土管が同時に表示される数
     public final static int FPS = 100;
     public final static int SPEED = 2;
-    private final static int HABA = 230;
+    private final static int HABA = 130;
     public Bird bird;
     public ArrayList<Dokan> upperDokan;
     public ArrayList<Dokan> lowerDokan;
     private javax.swing.Timer timer;
     private double t;
-    private boolean startFlag;
-    private boolean gameOverFlag;
-    private boolean scoreFlag;
+    private boolean startFlag; // falseのゲームが間は動かないようにする
+    private boolean gameOverFlag; // ゲームオーバになったらtrueになる
+    private boolean scoreFlag; 
     private int score;
     private java.util.Random rand;
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
         timer.start();
+        init();
+    }
+    public void init(){
         bird = new Bird(SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
         upperDokan = new ArrayList<Dokan>();
         lowerDokan = new ArrayList<Dokan>();
@@ -159,13 +162,12 @@ class ModelObservable extends Observable implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(startFlag){
             t += (double)10/FPS;
+            calcBirdPos();
+            updateDokan();
+            calcScore();
             if(isGameOver()){
                 gameOverFlag = true;
-            }
-            else{
-                calcBirdPos();
-                updateDokan();
-                calcScore();
+                startFlag = false;
             }
         }
         setChanged();

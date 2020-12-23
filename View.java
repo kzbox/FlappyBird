@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+aaa
+
 // View
 class ViewPanel extends JPanel implements Observer {
     private ModelObservable model;

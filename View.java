@@ -7,18 +7,20 @@ import java.util.*;
 class ViewPanel extends JPanel implements Observer {
     private ModelObservable model;
     private Controller cont;
+    private JButton b;
+    private JLabel l;
     public ViewPanel(ModelObservable mo, Controller co){
         this.setBackground(Color.WHITE);
         model = mo;
         cont = co;
+        b = new JButton("YES");
+        l = new JLabel("CONTINUE?");
         model.addObserver(this);
         this.addMouseListener(cont);
         this.addKeyListener(cont);
         this.setFocusable(true);
     }
     public void paintComponent(Graphics g){
-    JButton b = new JButton("YES");
-    JLabel l = new JLabel("CONTINUE?");
         super.paintComponent(g);
         model.bird.draw(g);
         for(int i = 0; i < model.DOKAN_BUF; i++){

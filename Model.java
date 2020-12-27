@@ -56,16 +56,19 @@ class Bird extends Thing {
 }
 class Dokan extends Thing {
     // private定数
-    private final static int HABA = 130;
+    public final static int HABA = 130;
     // フィールド
     private boolean passed;
     private int difficulty;
     private int award;
     // コンストラクタ
-    public Dokan(int x){
-        super(x, )
+    public Dokan(boolean up, int x){
+        super(0,0,0,0);
         difficulty = 0;
         passed = false;
+    }
+    public Dokan(int x, int y, int w, int h){
+        super(x,y,w,h);
     }
     // publicフィールド
     public void draw(Graphics g) {
@@ -95,27 +98,13 @@ class ModelObservable extends Observable implements ActionListener{
     private boolean scoreFlag; 
     private int score;
     private java.util.Random rand;
+    // コンストラクタ
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
         timer.start();
         init();
     }
-    public void init(){
-        bird = new Bird(this, SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
-        upperDokan = new ArrayList<Dokan>();
-        lowerDokan = new ArrayList<Dokan>();
-        rand = new java.util.Random();
-        for(int i=0; i < DOKAN_BUF; i++){
-            int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            upperDokan.add(new Dokan(360 + i*400, 0                                     , 40, SCREEN_HEIGHT/4 + rand_height - HABA/2));
-            lowerDokan.add(new Dokan(360 + i*400, SCREEN_HEIGHT/4 + rand_height + HABA/2, 40, SCREEN_HEIGHT                ));
-        }
-        t = 0;
-        startFlag = false;
-        gameOverFlag = false;
-        score = 0;
-        scoreFlag = false;
-    }
+    // privateメソッド
     private boolean isIn(){ // 近くにある土管のインデックス
         Dokan udokan = upperDokan.get(0);
         Dokan ldokan = lowerDokan.get(0);
@@ -152,8 +141,9 @@ class ModelObservable extends Observable implements ActionListener{
             upperDokan.remove(0);
             lowerDokan.remove(0);
             int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            upperDokan.add(new Dokan(360 + 2*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
-            lowerDokan.add(new Dokan(360 + 2*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
+            int interval = SCREEN_HEIGHT/4 + rand_height;
+            upperDokan.add(new Dokan(360 + 2*400, 0, 40, interval - Dokan.HABA/2));
+            lowerDokan.add(new Dokan(360 + 2*400, interval + Dokan.HABA/2, 40, SCREEN_HEIGHT));
             // スコアフラグを戻す
             scoreFlag = false;
         }
@@ -165,6 +155,24 @@ class ModelObservable extends Observable implements ActionListener{
             score += 100;
             System.out.println("current score: " + String.valueOf(score));
         }
+    }
+    // publicメソッド
+    public void init(){
+        bird = new Bird(this, SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
+        upperDokan = new ArrayList<Dokan>();
+        lowerDokan = new ArrayList<Dokan>();
+        rand = new java.util.Random();
+        for(int i=0; i < DOKAN_BUF; i++){
+            int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
+            int interval = SCREEN_HEIGHT/4 + rand_height;
+            upperDokan.add(new Dokan(360 + i*400, 0                                     , 40, interval - Dokan.HABA/2));
+            lowerDokan.add(new Dokan(360 + i*400, interval + Dokan.HABA/2, 40, SCREEN_HEIGHT                ));
+        }
+        t = 0;
+        startFlag = false;
+        gameOverFlag = false;
+        score = 0;
+        scoreFlag = false;
     }
     // getter
     public double getT(){

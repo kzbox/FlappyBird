@@ -23,9 +23,8 @@ class ViewPanel extends JPanel implements Observer {
         }
         model.getBird().draw(g);
         for(int i = 0; i < model.DOKAN_BUF; i++){
-            // model.getUpperDokan().get(i).draw(g);
-            // model.getLowerDokan().get(i).draw(g);
-            model.getDokan().get(i).draw(g);
+            model.getUpperDokan().get(i).draw(g);
+            model.getLowerDokan().get(i).draw(g);
         }
     }
     public void update(Observable o, Object obj){

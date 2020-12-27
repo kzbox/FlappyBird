@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-aaa
-
 // View
 class ViewPanel extends JPanel implements Observer {
     private ModelObservable model;
@@ -23,10 +21,11 @@ class ViewPanel extends JPanel implements Observer {
         if(model.getGameOverFlag()){
             g.fillRect(100, 100, 200, 200);
         }
-        model.bird.draw(g);
+        model.getBird().draw(g);
         for(int i = 0; i < model.DOKAN_BUF; i++){
-            model.upperDokan.get(i).draw(g);
-            model.lowerDokan.get(i).draw(g);
+            // model.getUpperDokan().get(i).draw(g);
+            // model.getLowerDokan().get(i).draw(g);
+            model.getDokan().get(i).draw(g);
         }
     }
     public void update(Observable o, Object obj){

@@ -25,8 +25,8 @@ class ViewPanel extends JPanel implements Observer,ActionListener {
         this.remove(b);
         this.remove(l);
         model.setStartFlag();
-	    model.setT(0);
-	    model.bird.setY0asY();
+	model.setT(0);
+	model.bird.setY0asY();
         if(model.getGameOverFlag()){
             model.init();
             System.out.println("---reset---");

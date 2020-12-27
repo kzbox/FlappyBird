@@ -14,7 +14,7 @@ class Controller implements MouseListener, KeyListener{
     public void mousePressed(MouseEvent e){
         model.setStartFlag();
         model.setT(0);
-        model.bird.setY0asY();
+        model.getBird().setY0asY();
     }
     public void mouseReleased(MouseEvent e){ }
     public void mouseEntered(MouseEvent e){ }
@@ -23,7 +23,7 @@ class Controller implements MouseListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 	    model.setStartFlag();
 	    model.setT(0);
-	    model.bird.setY0asY();
+	    model.getBird().setY0asY();
 	}
         if(model.getGameOverFlag()){
             model.init();

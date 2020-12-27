@@ -97,6 +97,7 @@ class ModelObservable extends Observable implements ActionListener{
     private boolean gameOverFlag; // ゲームオーバになったらtrueになる
     private boolean scoreFlag; 
     private int score;
+    private int tailDokanX;
     private java.util.Random rand;
     // コンストラクタ
     public ModelObservable(){
@@ -141,9 +142,10 @@ class ModelObservable extends Observable implements ActionListener{
             upperDokan.remove(0);
             lowerDokan.remove(0);
             int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            int interval = SCREEN_HEIGHT/4 + rand_height;
-            upperDokan.add(new Dokan(360 + 2*400, 0, 40, interval - Dokan.HABA/2));
-            lowerDokan.add(new Dokan(360 + 2*400, interval + Dokan.HABA/2, 40, SCREEN_HEIGHT));
+            int mid = SCREEN_HEIGHT/4 + rand_height;
+            tailDokanX = (int)upperDokan.get(1).getX() + rand.nextInt(200) + 300;
+            upperDokan.add(new Dokan(tailDokanX, 0, 40, mid - Dokan.HABA/2));
+            lowerDokan.add(new Dokan(tailDokanX, mid + Dokan.HABA/2, 40, SCREEN_HEIGHT));
             // スコアフラグを戻す
             scoreFlag = false;
         }
@@ -162,11 +164,13 @@ class ModelObservable extends Observable implements ActionListener{
         upperDokan = new ArrayList<Dokan>();
         lowerDokan = new ArrayList<Dokan>();
         rand = new java.util.Random();
+        tailDokanX = 360;
         for(int i=0; i < DOKAN_BUF; i++){
             int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            int interval = SCREEN_HEIGHT/4 + rand_height;
-            upperDokan.add(new Dokan(360 + i*400, 0                                     , 40, interval - Dokan.HABA/2));
-            lowerDokan.add(new Dokan(360 + i*400, interval + Dokan.HABA/2, 40, SCREEN_HEIGHT                ));
+            int mid = SCREEN_HEIGHT/4 + rand_height;
+            upperDokan.add(new Dokan(tailDokanX, 0, 40, mid - Dokan.HABA/2));
+            lowerDokan.add(new Dokan(tailDokanX, mid + Dokan.HABA/2, 40, SCREEN_HEIGHT));
+            tailDokanX += rand.nextInt(200) + 300;
         }
         t = 0;
         startFlag = false;

@@ -10,24 +10,24 @@ class Controller implements MouseListener, KeyListener{
     public Controller(ModelObservable mo){
         model = mo;
     }
-    public void mouseClicked(MouseEvent e){ }
-    public void mousePressed(MouseEvent e){
-        model.setStartFlag();
+    // publicメソッド
+    public void flyBird(){
+        if(model.getGameOverFlag() == false){
+            model.setStartFlag(true);
+        }
         model.setT(0);
         model.getBird().setY0asY();
+    }
+    public void mouseClicked(MouseEvent e){ }
+    public void mousePressed(MouseEvent e){
+        flyBird();
     }
     public void mouseReleased(MouseEvent e){ }
     public void mouseEntered(MouseEvent e){ }
     public void mouseExited(MouseEvent e){ }
     public void keyPressed(KeyEvent e){ 
-	if(e.getKeyCode() == KeyEvent.VK_SPACE){
-	    model.setStartFlag();
-	    model.setT(0);
-	    model.getBird().setY0asY();
-	}
-        if(model.getGameOverFlag()){
-            model.init();
-            System.out.println("---reset---");
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            flyBird();
         }
     }
     public void keyReleased(KeyEvent e){ }

@@ -177,8 +177,8 @@ class ModelObservable extends Observable implements ActionListener{
     public void setT(double time){
         t = time;
     }
-    public void setStartFlag(){
-        startFlag = true;
+    public void setStartFlag(boolean flag){
+        startFlag = flag;
     }
     public void actionPerformed(ActionEvent e){
         if(startFlag){

@@ -13,12 +13,16 @@ class FlappyBird extends JFrame {
         cont = new Controller(model);
         view = new ViewPanel(model, cont);
         this.setBackground(Color.RED);
-        this.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
         this.add(view);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        // this.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
+        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // this.setVisible(true);
     }
     public static void main(String argv[]){
-        new FlappyBird();
+        FlappyBird frame = new FlappyBird();
+        frame.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
+        frame.setTitle("Play FlappyBird");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }

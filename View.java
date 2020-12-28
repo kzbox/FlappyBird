@@ -24,9 +24,9 @@ class ViewPanel extends JPanel implements Observer,ActionListener {
     public void actionPerformed(ActionEvent ev){
         this.remove(b);
         this.remove(l);
-        model.setStartFlag();
-	model.setT(0);
-	model.bird.setY0asY();
+        model.setStartFlag(true);
+	    model.setT(0);
+	    model.getBird().setY0asY();
         if(model.getGameOverFlag()){
             model.init();
             System.out.println("---reset---");
@@ -34,10 +34,10 @@ class ViewPanel extends JPanel implements Observer,ActionListener {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        model.bird.draw(g);
-        for(i = 0; i < model.DOKAN_BUF; i++){
-            model.upperDokan.get(i).draw(g);
-            model.lowerDokan.get(i).draw(g);
+        model.getBird().draw(g);
+        for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
+            model.getUpperDokan().get(i).draw(g);
+            model.getLowerDokan().get(i).draw(g);
         }
         g.setColor(Color.black);
         if(model.getGameOverFlag()){

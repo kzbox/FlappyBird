@@ -13,7 +13,7 @@ class FlappyBird extends JFrame {
         cont = new Controller(model);
         view = new ViewPanel(model, cont);
         this.setBackground(Color.RED);
-        this.setSize(model.SCREEN_WIDTH, model.SCREEN_HEIGHT);
+        this.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
         this.add(view);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);

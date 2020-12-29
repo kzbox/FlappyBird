@@ -4,10 +4,10 @@ import java.awt.event.*;
 import java.util.*;
 
 // Controller
-class Controller implements MouseListener, KeyListener{
+class GameController implements MouseListener, KeyListener{
     private ModelObservable model;
-    private ViewPanel view;
-    public Controller(ModelObservable mo){
+    private GamePanel gamePanel;
+    public GameController(ModelObservable mo){
         model = mo;
     }
     // publicメソッド

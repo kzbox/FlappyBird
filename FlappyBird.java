@@ -6,17 +6,23 @@ import java.util.*;
 // Main
 class FlappyBird extends JFrame {
     private ModelObservable model;
-    private ViewPanel view;
-    private Controller cont;
+    private GamePanel gamePanel;
+    private GameController gameCont;
+    
+    private JPanel switchPanel;
+    private CardLayout layout;
+
     public FlappyBird(){
         model = new ModelObservable();
-        cont = new Controller(model);
-        view = new ViewPanel(model, cont);
-        this.setBackground(Color.RED);
-        this.add(view);
-        // this.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
-        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // this.setVisible(true);
+        gameCont = new GameController(model);
+        gamePanel = new GamePanel(model, gameCont);
+
+        switchPanel = new JPanel();
+        layout = new CardLayout();
+        switchPanel.setLayout(layout);
+
+        switchPanel.add(gamePanel);
+        this.add(switchPanel);
     }
     public static void main(String argv[]){
         FlappyBird frame = new FlappyBird();

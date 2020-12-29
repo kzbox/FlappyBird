@@ -5,13 +5,13 @@ import java.util.*;
 
 // View
 
-class ViewPanel extends JPanel implements Observer,ActionListener {
+class GamePanel extends JPanel implements Observer,ActionListener {
     private ModelObservable model;
-    private Controller cont;
+    private GameController cont;
     int i;
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
-    public ViewPanel(ModelObservable mo, Controller co){
+    public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
         cont = co;

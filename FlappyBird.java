@@ -3,11 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-// account test
-// account test2
-// account test3 this should be correct
-// account test4 github username test
-
 // Main
 class FlappyBird extends JFrame {
     // Model
@@ -46,7 +41,7 @@ class FlappyBird extends JFrame {
         frame.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
         frame.setTitle("Play FlappyBird");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setFocusable(true);
+        // frame.setFocusable(true); // キーが効かなくなったから追加したが効果はなかった。
         frame.setVisible(true);
     }
 }

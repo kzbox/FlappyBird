@@ -10,7 +10,7 @@ import java.util.*;
 // JFrameにCardLayoutのレイアウトを持ったJPanelをもたせて、そのパネルに2つのJPanelを追加している。
 
 // イメージ図
-// Switcher2(JFrame)→cardPanel(JPanel)→SartPanel(JPanel)とPlay(JPanel)
+// Switcher2(JFrame)→cardPanel(JPanel)→StartPanel(JPanel)とPlay(JPanel)
 //                        ↑
 //                    CardLayout
 

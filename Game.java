@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.*;
 
 // View
-
 class GamePanel extends JPanel implements Observer,ActionListener {
     private ModelObservable model;
     private GameController cont;
@@ -20,6 +19,9 @@ class GamePanel extends JPanel implements Observer,ActionListener {
         this.addKeyListener(cont);
         this.setFocusable(true);
         b.addActionListener(this);
+        // b.setForeground(Color.RED);
+        // b.setOpaque(true);
+        b.setBackground(Color.PINK);
     }
     public void actionPerformed(ActionEvent ev){
         this.remove(b);
@@ -53,4 +55,39 @@ class GamePanel extends JPanel implements Observer,ActionListener {
     public void update(Observable o, Object obj){
         repaint();
     }
+}
+
+
+// Controller
+class GameController implements MouseListener, KeyListener{
+    private ModelObservable model;
+    private GamePanel panel;
+    public GameController(ModelObservable mo){
+        model = mo;
+    }
+    public void setPanel(GamePanel p){
+        panel = p;
+    }
+    // publicメソッド
+    public void flyBird(){
+        if(model.getGameOverFlag() == false){
+            model.setStartFlag(true);
+        }
+        model.setT(0);
+        model.getBird().setY0asY();
+    }
+    public void mouseClicked(MouseEvent e){ }
+    public void mousePressed(MouseEvent e){
+        flyBird();
+    }
+    public void mouseReleased(MouseEvent e){ }
+    public void mouseEntered(MouseEvent e){ }
+    public void mouseExited(MouseEvent e){ }
+    public void keyPressed(KeyEvent e){ 
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            flyBird();
+        }
+    }
+    public void keyReleased(KeyEvent e){ }
+    public void keyTyped(KeyEvent e){ }
 }

@@ -8,12 +8,25 @@ class StartPanel extends JPanel {
     ModelObservable model;
     StartController cont;
     JButton b;
+    JLabel c;
     public StartPanel(ModelObservable mo, StartController co){
         model = mo;
         cont = co;
+        this.setLayout(null);
         b = new JButton("Start!!!!!!!");
+        //b.setPreferredSize(new Dimension(200, 100));
+        b.setFont(new Font("MS ゴシック", Font.BOLD, 24));
+        b.setBounds(100, 300, 200, 100);
+        b.setForeground(Color.YELLOW);
+        b.setBackground(Color.BLUE);
         b.addActionListener(cont);
         b.setActionCommand("start game");
+        c = new JLabel("FlappyBird");
+        c.setBounds(130, 150, 200, 50);
+        c.setForeground(Color.RED);
+        c.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 24));
+
+        this.add(c);
         this.add(b);
     }
 }

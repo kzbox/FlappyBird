@@ -4,12 +4,15 @@ import java.awt.event.*;
 import java.util.*;
 
 // View
+
 class GamePanel extends JPanel implements Observer,ActionListener {
     private ModelObservable model;
     private GameController cont;
     int i;
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
+    Image birdImage = Toolkit.getDefaultToolkit().getImage("C:/Users/kzkzk/OneDrive/uec/mpro/FlappyBird/images/bird_yatsugashira.png");
+
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -36,7 +39,12 @@ class GamePanel extends JPanel implements Observer,ActionListener {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        model.getBird().draw(g);
+        // model.getBird().draw(g);
+        int birdX = (int)model.getBird().getX();
+        int birdY = (int)model.getBird().getY();
+        int birdW = (int)model.getBird().getWidth();
+        int birdH = (int)model.getBird().getHeight();
+        g.drawImage(birdImage, birdX, birdY, birdW, birdH, this);
         for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
             model.getUpperDokan().get(i).draw(g);
             model.getLowerDokan().get(i).draw(g);

@@ -9,10 +9,10 @@ class GamePanel extends JPanel implements Observer,ActionListener {
     private ModelObservable model;
     private GameController cont;
     int i;
-    JButton b = new JButton("YES");
-    JLabel l = new JLabel("CONTINUE?");
-    Image birdImage = Toolkit.getDefaultToolkit().getImage("C:/Users/kzkzk/OneDrive/uec/mpro/FlappyBird/images/bird_yatsugashira.png");
-
+    private JButton b = new JButton("YES");
+    private JLabel l = new JLabel("CONTINUE?");
+    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
+    private Image lowerDokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokan_lower.png");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -40,14 +40,23 @@ class GamePanel extends JPanel implements Observer,ActionListener {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         // model.getBird().draw(g);
-        int birdX = (int)model.getBird().getX();
-        int birdY = (int)model.getBird().getY();
-        int birdW = (int)model.getBird().getWidth();
-        int birdH = (int)model.getBird().getHeight();
-        g.drawImage(birdImage, birdX, birdY, birdW, birdH, this);
+        Bird bird = model.getBird();
+        g.drawImage(birdImage, 
+                    (int)bird.getX(), 
+                    (int)bird.getY(), 
+                    (int)bird.getWidth(), 
+                    (int)bird.getHeight(), 
+                    this);
         for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
             model.getUpperDokan().get(i).draw(g);
-            model.getLowerDokan().get(i).draw(g);
+            // model.getLowerDokan().get(i).draw(g);
+            Dokan lowerDokan = model.getLowerDokan().get(i);
+            g.drawImage(lowerDokanImage, 
+                        (int)lowerDokan.getX(), 
+                        (int)lowerDokan.getY(), 
+                        (int)lowerDokan.getWidth(), 
+                        (int)lowerDokan.getHeight(), 
+                        this);
         }
         g.setColor(Color.black);
         if(model.getGameOverFlag()){

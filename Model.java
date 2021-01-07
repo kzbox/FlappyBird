@@ -19,6 +19,8 @@ abstract class Thing {
     double getY()     { return y; }
     double getWidth() { return width;  }
     double getHeight(){ return height; }
+    public double getRightX(){ return x+width; }
+    public double getLowY(){ return y+height; }
     // setter
     void setX(double x)     { this.x = x; }
     void setY(double y)     { this.y = y; }
@@ -74,13 +76,12 @@ class ModelObservable extends Observable implements ActionListener{
     public final static int SPEED = 2;
     // フィールド
     private Bird bird;
-    private ArrayList<Dokan> upperDokan;
-    private ArrayList<Dokan> lowerDokan;
+    private ArrayList<Dokan> upperDokan, lowerDokan;
     private javax.swing.Timer timer;
-    private double t;
+    private double time;
     private boolean startFlag; // falseのゲームが間は動かないようにする
     private boolean gameOverFlag; // ゲームオーバになったらtrueになる
-    private boolean scoreFlag; 
+    private boolean scoreFlag; // スコアカウントしたらtrueにする
     private int score;
     private java.util.Random rand = new java.util.Random();
     private int dokanTail;
@@ -92,19 +93,26 @@ class ModelObservable extends Observable implements ActionListener{
     }
     // privateメソッド
     private boolean isIn(){ // 近くにある土管のインデックス
-        Dokan udokan = upperDokan.get(0);
-        Dokan ldokan = lowerDokan.get(0);
+        Dokan udokan;
+        Dokan ldokan;
+        if(upperDokan.get(0).getRightX() < bird.getX()){
+            udokan = upperDokan.get(1);
+            ldokan = lowerDokan.get(1);
+        }
+        else{
+            udokan = upperDokan.get(0);
+            ldokan = lowerDokan.get(0);
+        }
         double dokanX = udokan.getX();
-        double dokanW = udokan.getWidth();
+        double dokanRightX = udokan.getRightX();
         double birdX = bird.getX();
-        double birdW = bird.getWidth();
-
-        if(birdX+birdW > dokanX && birdX < dokanX+dokanW){
+        double birdRightX = bird.getRightX();
+        if(birdRightX > dokanX && birdX < dokanRightX){
             double udokanH = udokan.getHeight();
             double ldokanH = ldokan.getY();
             double birdY = bird.getY();
-            double birdH = bird.getHeight();
-            if(birdY < udokanH || birdY+birdH > ldokanH){
+            double birdLowY = bird.getLowY();
+            if(birdY < udokanH || birdLowY > ldokanH){
                 return true;
             }
         }
@@ -117,11 +125,11 @@ class ModelObservable extends Observable implements ActionListener{
         return isIn();
     }
     private void calcBirdPos(){
-        bird.setY(bird.getY0() - Bird.V0*t + Bird.GRAVITY*t*t/2);
+        bird.setY(bird.getY0() - Bird.V0*time + Bird.GRAVITY*time*time/2);
     }
     private void addDokan(){
         if(upperDokan.size() > 0){
-            dokanTail = (int)upperDokan.get(upperDokan.size()-1).getX() + (int)(SCREEN_WIDTH/1.7) + rand.nextInt((int)(SCREEN_WIDTH/1.3));
+            dokanTail = (int)upperDokan.get(upperDokan.size()-1).getX() + (int)(SCREEN_WIDTH/1.7) + rand.nextInt((int)(SCREEN_WIDTH/2.2));
         }
         int w = SCREEN_WIDTH/8;
         int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
@@ -163,11 +171,18 @@ class ModelObservable extends Observable implements ActionListener{
         for(int i=0; i < DOKAN_BUF; i++){
             addDokan();            
         }
-        t = 0;
+        time = 0;
         startFlag = false;
         gameOverFlag = false;
         score = 0;
         scoreFlag = false;
+    }
+    public void flyBird(){
+        if(gameOverFlag == false){
+            startFlag = true;
+        }
+        bird.setY0asY();
+        time = 0;
     }
     // getter
     public boolean getGameOverFlag(){
@@ -183,15 +198,15 @@ class ModelObservable extends Observable implements ActionListener{
         return lowerDokan;
     }
     // setter
-    public void setT(double time){
-        t = time;
+    public void setTime(double t){
+        this.time = t;
     }
     public void setStartFlag(boolean flag){
         startFlag = flag;
     }
     public void actionPerformed(ActionEvent e){
         if(startFlag){
-            t += (double)10/FPS;
+            time += (double)10/FPS;
             calcBirdPos();
             updateDokan();
             calcScore();

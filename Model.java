@@ -29,7 +29,7 @@ class Bird extends Thing {
     // 定数
     public final static double V0 = 49; // 鳥の上向きの初速
     public final static double GRAVITY = 23; // 鳥に働く重力
-    public final static int BIRD_WIDTH = 30, BIRD_HEIGHT = 30; // 鳥の大きさ
+    public final static int BIRD_WIDTH = 45, BIRD_HEIGHT = 45; // 鳥の大きさ
     // フィールド
     private double y0; // クリックした鳥の高さ
     // コンストラクタ
@@ -66,10 +66,10 @@ class Dokan extends Thing {
 
 class ModelObservable extends Observable implements ActionListener{
     // private定数
-    private final static int HABA = 130;
+    private final static int HABA = 180;
     // public定数
     public final static int SCREEN_WIDTH = 400, SCREEN_HEIGHT = 800;
-    public final static int DOKAN_BUF = 3; // 土管が同時に表示される数
+    public final static int DOKAN_BUF = 5; // 土管が同時に表示される数
     public final static int FPS = 100;
     public final static int SPEED = 2;
     // フィールド
@@ -82,7 +82,8 @@ class ModelObservable extends Observable implements ActionListener{
     private boolean gameOverFlag; // ゲームオーバになったらtrueになる
     private boolean scoreFlag; 
     private int score;
-    private java.util.Random rand;
+    private java.util.Random rand = new java.util.Random();
+    private int dokanTail;
     // コンストラクタ
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
@@ -116,21 +117,31 @@ class ModelObservable extends Observable implements ActionListener{
         return isIn();
     }
     private void calcBirdPos(){
-        bird.setY(bird.getY0() - bird.V0*t + bird.GRAVITY*t*t/2);
+        bird.setY(bird.getY0() - Bird.V0*t + Bird.GRAVITY*t*t/2);
+    }
+    private void addDokan(){
+        if(upperDokan.size() > 0){
+            dokanTail = (int)upperDokan.get(upperDokan.size()-1).getX() + (int)(SCREEN_WIDTH/1.7) + rand.nextInt((int)(SCREEN_WIDTH/1.3));
+        }
+        int w = SCREEN_WIDTH/8;
+        int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
+        int mid = SCREEN_HEIGHT/4 + rand_height;
+        upperDokan.add(new Dokan(dokanTail, 0, w, mid - HABA/2));
+        lowerDokan.add(new Dokan(dokanTail, mid + HABA/2, w, SCREEN_HEIGHT));
     }
     private void updateDokan(){
         // 土管の左にずらす
+        // dokanTail -= SPEED;
         for(int i = 0; i < DOKAN_BUF; i++){
             upperDokan.get(i).moveDokan(SPEED);
             lowerDokan.get(i).moveDokan(SPEED);
         }
         // 土管がカメラの左側に流れたら土管を消して右側に追加
-        if(upperDokan.get(0).getX() + upperDokan.get(0).getWidth() < 0){
+        Dokan firstDokan = upperDokan.get(0);
+        if(firstDokan.getX() + firstDokan.getWidth() < 0){
             upperDokan.remove(0);
             lowerDokan.remove(0);
-            int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            upperDokan.add(new Dokan(360 + 2*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
-            lowerDokan.add(new Dokan(360 + 2*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
+            addDokan();
             // スコアフラグを戻す
             scoreFlag = false;
         }
@@ -148,11 +159,9 @@ class ModelObservable extends Observable implements ActionListener{
         bird = new Bird(SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
         upperDokan = new ArrayList<Dokan>();
         lowerDokan = new ArrayList<Dokan>();
-        rand = new java.util.Random();
+        dokanTail = SCREEN_WIDTH;
         for(int i=0; i < DOKAN_BUF; i++){
-            int rand_height = rand.nextInt(SCREEN_HEIGHT/2);
-            upperDokan.add(new Dokan(360 + i*400, 0                                   , 40, SCREEN_HEIGHT/4 + rand_height));
-            lowerDokan.add(new Dokan(360 + i*400, SCREEN_HEIGHT/4 + rand_height + HABA, 40, SCREEN_HEIGHT                ));
+            addDokan();            
         }
         t = 0;
         startFlag = false;

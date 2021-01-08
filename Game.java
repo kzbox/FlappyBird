@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // View
-class GamePanel extends JPanel implements Observer,ActionListener {
+class GamePanel extends JPanel implements Observer {
     private ModelObservable model;
     private GameController cont;
     int i;
@@ -15,25 +15,15 @@ class GamePanel extends JPanel implements Observer,ActionListener {
         model = mo;
         cont = co;
         model.addObserver(this);
+        b.addActionListener(cont);
         this.addMouseListener(cont);
         this.addKeyListener(cont);
         this.setFocusable(true);
-        b.addActionListener(this);
         // b.setForeground(Color.RED);
         // b.setOpaque(true);
         b.setBackground(Color.PINK);
     }
-    public void actionPerformed(ActionEvent ev){
-        this.remove(b);
-        this.remove(l);
-        model.setStartFlag(true);
-	    model.setTime(0);
-	    model.getBird().setY0asY();
-        if(model.getGameOverFlag()){
-            model.init();
-            System.out.println("---reset---");
-        }
-    }
+    
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         model.getBird().draw(g);
@@ -59,7 +49,7 @@ class GamePanel extends JPanel implements Observer,ActionListener {
 
 
 // Controller
-class GameController implements MouseListener, KeyListener{
+class GameController implements MouseListener, KeyListener,ActionListener{
     private ModelObservable model;
     private GamePanel panel;
     public GameController(ModelObservable mo){
@@ -83,4 +73,15 @@ class GameController implements MouseListener, KeyListener{
     }
     public void keyReleased(KeyEvent e){ }
     public void keyTyped(KeyEvent e){ }
+    public void actionPerformed(ActionEvent ev){
+        panel.remove(b);
+        panel.remove(l);
+        model.setStartFlag(true);
+	    model.setTime(0);
+	    model.getBird().setY0asY();
+        if(model.getGameOverFlag()){
+            model.init();
+            System.out.println("---reset---");
+        }
+    }
 }

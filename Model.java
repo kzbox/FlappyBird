@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.io.*;
 
 // Model
 abstract class Thing {
@@ -184,6 +185,30 @@ class ModelObservable extends Observable implements ActionListener{
         bird.setY0asY();
         time = 0;
     }
+    public void writeScore(){
+        try{
+            File file = new File("../log/high_score.txt");
+            int high_score = 0;
+            if(file.exists()){
+                FileReader filereader = new FileReader(file);
+                BufferedReader br = new BufferedReader(filereader);
+
+                String str = br.readLine();
+                high_score = Integer.parseInt(str);
+
+                filereader.close();
+            }
+
+            if(high_score < score){
+                FileWriter filewriter = new FileWriter(file);
+                filewriter.write(String.valueOf(score));
+                
+                filewriter.close();
+            }
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
     // getter
     public boolean getGameOverFlag(){
         return gameOverFlag;
@@ -196,6 +221,9 @@ class ModelObservable extends Observable implements ActionListener{
     }
     public ArrayList<Dokan> getLowerDokan(){
         return lowerDokan;
+    }
+    public int getScore(){
+        return score;
     }
     // setter
     public void setTime(double t){
@@ -213,6 +241,7 @@ class ModelObservable extends Observable implements ActionListener{
             if(isGameOver()){
                 gameOverFlag = true;
                 startFlag = false;
+                writeScore();
             }
         }
         setChanged();

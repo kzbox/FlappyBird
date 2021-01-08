@@ -2,21 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
 // view
 class StartPanel extends JPanel {
     ModelObservable model;
     StartController cont;
     JButton b;
     JLabel c;
+    Image img;
     public StartPanel(ModelObservable mo, StartController co){
         model = mo;
         cont = co;
         this.setLayout(null);
-        b = new JButton("Start!!!!!!!");
+        b = new JButton("Start!!!!");
         //b.setPreferredSize(new Dimension(200, 100));
         b.setFont(new Font("MS ゴシック", Font.BOLD, 24));
-        b.setBounds(100, 300, 200, 100);
+        b.setBounds(ModelObservable.SCREEN_WIDTH/4, ModelObservable.SCREEN_HEIGHT/2, ModelObservable.SCREEN_WIDTH/2, ModelObservable.SCREEN_HEIGHT/7);
         b.setForeground(Color.YELLOW);
         b.setBackground(Color.BLUE);
         b.addActionListener(cont);
@@ -26,6 +26,13 @@ class StartPanel extends JPanel {
         c.setForeground(Color.RED);
         c.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 24));
 
+        img = Toolkit.getDefaultToolkit().getImage("startview.jpg");
+        
+    }
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(img, 0, 0, ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_WIDTH, 
+        500, 300, ModelObservable.SCREEN_WIDTH+500, ModelObservable.SCREEN_HEIGHT+300, this);
         this.add(c);
         this.add(b);
     }

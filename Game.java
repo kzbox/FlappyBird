@@ -10,6 +10,9 @@ class GamePanel extends JPanel implements Observer {
     int i;
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
+    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
+    private Image sitadokanImage = Toolkit.getDefaultToolkit().getImage("../images/sitadokan.png");
+    private Image uedokanImage = Toolkit.getDefaultToolkit().getImage("../images/uedokan.png");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -26,16 +29,38 @@ class GamePanel extends JPanel implements Observer {
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        model.getBird().draw(g);
+        //model.getBird().draw(g);
+        Bird bird = model.getBird();
+        g.drawImage(birdImage,
+                    (int)bird.getX(),
+                    (int)bird.getY(),
+                    (int)bird.getWidth(),
+                    (int)bird.getHeight(),
+                    this);
         for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
-            model.getUpperDokan().get(i).draw(g);
-            model.getLowerDokan().get(i).draw(g);
+            //model.getUpperDokan().get(i).draw(g);
+            Dokan upperDokan = model.getUpperDokan().get(i);
+            g.drawImage(uedokanImage,
+                        (int)upperDokan.getX(),
+                        (int)upperDokan.getY(),
+                        (int)upperDokan.getWidth(),
+                        (int)upperDokan.getHeight(),
+                        this);
+
+            //model.getLowerDokan().get(i).draw(g);
+            Dokan lowerDokan = model.getLowerDokan().get(i);
+            g.drawImage(sitadokanImage,
+                        (int)lowerDokan.getX(),
+                        (int)lowerDokan.getY(),
+                        (int)lowerDokan.getWidth(),
+                        (int)lowerDokan.getHeight(),
+                        this);
         }
         g.setColor(Color.black);
         if(model.getGameOverFlag()){
-            g.fillRect(100, 100, 200, 200);
-            b.setBounds(130,240,60,30);
-            l.setBounds(165,130,180,80);
+            g.fillRect(model.SCREEN_WIDTH/4, model.SCREEN_HEIGHT/8, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/4);
+            b.setBounds(model.SCREEN_WIDTH/4 + model.SCREEN_WIDTH/12,240,60,30);
+            l.setBounds((model.SCREEN_WIDTH/2)-(model.SCREEN_WIDTH/12), model.SCREEN_HEIGHT/6, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/12);
             l.setForeground(Color.white);
             this.add(b);
             this.add(l);
@@ -58,6 +83,7 @@ class GameController implements MouseListener, KeyListener,ActionListener{
     public void setPanel(GamePanel p){
         panel = p;
     }
+    
     // publicメソッド
     public void mouseClicked(MouseEvent e){ }
     public void mousePressed(MouseEvent e){
@@ -74,8 +100,8 @@ class GameController implements MouseListener, KeyListener,ActionListener{
     public void keyReleased(KeyEvent e){ }
     public void keyTyped(KeyEvent e){ }
     public void actionPerformed(ActionEvent ev){
-        panel.remove(b);
-        panel.remove(l);
+        panel.remove(panel.b);
+        panel.remove(panel.l);
         model.setStartFlag(true);
 	    model.setTime(0);
 	    model.getBird().setY0asY();

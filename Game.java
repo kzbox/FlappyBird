@@ -13,6 +13,7 @@ class GamePanel extends JPanel implements Observer {
     private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
     private Image sitadokanImage = Toolkit.getDefaultToolkit().getImage("../images/sitadokan.png");
     private Image uedokanImage = Toolkit.getDefaultToolkit().getImage("../images/uedokan.png");
+    private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/startview.png");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -29,6 +30,12 @@ class GamePanel extends JPanel implements Observer {
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        g.drawImage(haikeiImage,
+                    0,
+                    0,
+                    model.SCREEN_WIDTH,
+                    model.SCREEN_HEIGHT,
+                    this);
         //model.getBird().draw(g);
         Bird bird = model.getBird();
         g.drawImage(birdImage,

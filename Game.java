@@ -8,6 +8,7 @@ class GamePanel extends JPanel implements Observer {
     private ModelObservable model;
     private GameController cont;
     int i;
+    JButton b2 = new JButton("NO");
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
     private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
@@ -20,12 +21,14 @@ class GamePanel extends JPanel implements Observer {
         cont = co;
         model.addObserver(this);
         b.addActionListener(cont);
+        b2.addActionListener(cont);
         this.addMouseListener(cont);
         this.addKeyListener(cont);
         this.setFocusable(true);
         // b.setForeground(Color.RED);
         // b.setOpaque(true);
         b.setBackground(Color.PINK);
+        b2.setBackground(Color.PINK);
     }
     
     public void paintComponent(Graphics g){
@@ -33,8 +36,6 @@ class GamePanel extends JPanel implements Observer {
         g.drawImage(haikeiImage,
                     0,
                     0,
-                    model.SCREEN_WIDTH,
-                    model.SCREEN_HEIGHT,
                     this);
         //model.getBird().draw(g);
         Bird bird = model.getBird();
@@ -67,9 +68,11 @@ class GamePanel extends JPanel implements Observer {
         if(model.getGameOverFlag()){
             g.fillRect(model.SCREEN_WIDTH/4, model.SCREEN_HEIGHT/8, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/4);
             b.setBounds(model.SCREEN_WIDTH/4 + model.SCREEN_WIDTH/12,240,60,30);
+            b2.setBounds(model.SCREEN_WIDTH/2,240,60,30);
             l.setBounds((model.SCREEN_WIDTH/2)-(model.SCREEN_WIDTH/12), model.SCREEN_HEIGHT/6, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/12);
             l.setForeground(Color.white);
             this.add(b);
+            this.add(b2);
             this.add(l);
         }
         
@@ -84,9 +87,14 @@ class GamePanel extends JPanel implements Observer {
 class GameController implements MouseListener, KeyListener,ActionListener{
     private ModelObservable model;
     private GamePanel panel;
-    public GameController(ModelObservable mo){
-        model = mo;
+    private JPanel cardPanel;
+    private CardLayout layout;
+    public GameController(ModelObservable model,JPanel cardPanel,CardLayout layout){
+        this.model = model;
+        this.cardPanel = cardPanel;
+        this.layout = layout;
     }
+
     public void setPanel(GamePanel p){
         panel = p;
     }
@@ -107,7 +115,21 @@ class GameController implements MouseListener, KeyListener,ActionListener{
     public void keyReleased(KeyEvent e){ }
     public void keyTyped(KeyEvent e){ }
     public void actionPerformed(ActionEvent ev){
+        if(ev.getSource()==panel.b){
         panel.remove(panel.b);
+        panel.remove(panel.b2);
+        panel.remove(panel.l);
+        model.setStartFlag(true);
+	    model.setTime(0);
+	    model.getBird().setY0asY();
+        if(model.getGameOverFlag()){
+            model.init();
+            System.out.println("---reset---");
+        }
+    }else if(ev.getSource()==panel.b2){
+        layout.show(cardPanel, "start");
+        panel.remove(panel.b);
+        panel.remove(panel.b2);
         panel.remove(panel.l);
         model.setStartFlag(true);
 	    model.setTime(0);
@@ -117,4 +139,5 @@ class GameController implements MouseListener, KeyListener,ActionListener{
             System.out.println("---reset---");
         }
     }
+   }
 }

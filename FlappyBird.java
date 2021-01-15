@@ -28,7 +28,7 @@ class FlappyBird extends JFrame {
         startCont.setPanel(startPanel);
         
         // カードの設定(GamePanel)
-        gameCont = new GameController(model);
+        gameCont = new GameController(model, cardPanel, layout);
         gamePanel = new GamePanel(model, gameCont);
         gameCont.setPanel(gamePanel);
         // カードの追加

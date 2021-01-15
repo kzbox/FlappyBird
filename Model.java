@@ -163,6 +163,58 @@ class ModelObservable extends Observable implements ActionListener{
             System.out.println("current score: " + String.valueOf(score));
         }
     }
+    private void makeLogFile(File folder, File file){
+        if(folder.mkdir() == true){
+            System.out.print("フォルダ作成成功");
+        }
+        else{
+            System.out.print("フォルダ作成失敗");
+        }
+        System.out.println(folder.getPath());
+        try{
+            file.createNewFile();
+            System.out.print("ファイル作成成功: ");
+            System.out.println(file.getPath());
+        }
+        catch(IOException e){
+            System.out.print("ファイル作成失敗: ");
+            System.out.println(file.getPath());
+        }
+    }
+    private void writeScore(){
+        File file = new File("../log/high_score.txt");
+        File folder = new File("../log");
+        int high_score = 0;
+        makeLogFile(folder, file);
+        if(file.exists() == true && file.length() > 0){
+            try{
+                FileReader filereader = new FileReader(file);
+                BufferedReader br = new BufferedReader(filereader);
+
+                String str = br.readLine();
+                high_score = Integer.parseInt(str);
+
+                filereader.close();
+            }
+            catch(IOException e){
+                System.out.println(e);
+            }
+        }
+        else{
+            System.out.println("ファイルが存在しない or ファイルが空");
+        }
+        if(high_score < score){
+            try{
+                FileWriter filewriter = new FileWriter(file);
+                filewriter.write(String.valueOf(score));
+                
+                filewriter.close();
+            }
+            catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
     // publicメソッド
     public void init(){
         bird = new Bird(SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
@@ -184,30 +236,6 @@ class ModelObservable extends Observable implements ActionListener{
         }
         bird.setY0asY();
         time = 0;
-    }
-    public void writeScore(){
-        try{
-            File file = new File("../log/high_score.txt");
-            int high_score = 0;
-            if(file.exists()){
-                FileReader filereader = new FileReader(file);
-                BufferedReader br = new BufferedReader(filereader);
-
-                String str = br.readLine();
-                high_score = Integer.parseInt(str);
-
-                filereader.close();
-            }
-
-            if(high_score < score){
-                FileWriter filewriter = new FileWriter(file);
-                filewriter.write(String.valueOf(score));
-                
-                filewriter.close();
-            }
-        }catch(IOException e){
-            System.out.println(e);
-        }
     }
     // getter
     public boolean getGameOverFlag(){

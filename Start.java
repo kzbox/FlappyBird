@@ -9,11 +9,13 @@ class StartPanel extends JPanel {
     StartController cont;
     JButton b;
     JLabel c;
+    JLabel d;
     JLabel score;
     Image img;
+    Image img2;
     String high_score;
 
-    public String score(){
+    public void score(){
         try{
             File file = new File("../log/high_score.txt");
             if(file.exists()){
@@ -27,40 +29,54 @@ class StartPanel extends JPanel {
         }catch(IOException e){
             System.out.println(e);
         }
-        return high_score;
     }
 
     public StartPanel(ModelObservable mo, StartController co){
         model = mo;
         cont = co;
         this.setLayout(null);
-        b = new JButton("Start!!!!");
-        //b.setPreferredSize(new Dimension(200, 100));
+        b = new JButton("プレイする");
         b.setFont(new Font("MS ゴシック", Font.BOLD, 24));
-        b.setBounds(ModelObservable.SCREEN_WIDTH/4, ModelObservable.SCREEN_HEIGHT/2, 
-                    ModelObservable.SCREEN_WIDTH/2, ModelObservable.SCREEN_HEIGHT/7);
-        b.setForeground(Color.YELLOW);
-        b.setBackground(Color.BLUE);
+        b.setBounds(ModelObservable.SCREEN_WIDTH/7, ModelObservable.SCREEN_HEIGHT/2, 
+                    ModelObservable.SCREEN_WIDTH*5/7, ModelObservable.SCREEN_HEIGHT/5);
+        b.setForeground(Color.RED);
+        //b.setBackground(Color.WHITE);
         b.addActionListener(cont);
         b.setActionCommand("start game");
         c = new JLabel("FlappyBird");
-        c.setBounds(130, 150, 200, 50);
-        c.setForeground(Color.RED);
-        c.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 24));
+        c.setBounds(ModelObservable.SCREEN_WIDTH/7, ModelObservable.SCREEN_HEIGHT/6, 
+                    ModelObservable.SCREEN_WIDTH*5/7, ModelObservable.SCREEN_HEIGHT/4);
+        c.setForeground(Color.BLUE);
+        c.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
+
+        d = new JLabel("～幸せを運ぶ青い鳥～");
+        d.setBounds(ModelObservable.SCREEN_WIDTH/5, ModelObservable.SCREEN_HEIGHT/4, 
+                    ModelObservable.SCREEN_WIDTH*4/5, ModelObservable.SCREEN_HEIGHT/4);
+        d.setForeground(Color.BLUE);
+        d.setFont(new Font("SERIF", Font.BOLD | Font.ITALIC, 28));
+
 
         img = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
 
-        high_score = score();
+        img2 = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");
+
+        score();
         score = new JLabel("HIGH SCORE:" + high_score);
-        score.setBounds(130, 600, 200, 50);
+        score.setFont(new Font("Arial", Font.ITALIC, 24));
+        score.setBounds(ModelObservable.SCREEN_WIDTH/5, ModelObservable.SCREEN_HEIGHT*3/4, 
+                        ModelObservable.SCREEN_WIDTH*4/5, ModelObservable.SCREEN_HEIGHT/5);
         score.setForeground(Color.RED);
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(img, 0, 0, this);
+        g.drawImage(img2, 50, 50, 100, 100, this);
         this.add(c);
         this.add(b);
+        this.add(d);
         this.add(score);
+        score();
+        score.setText("HIGH SCORE: " + high_score);
     }
 
 }

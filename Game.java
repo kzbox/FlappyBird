@@ -58,7 +58,7 @@ class GamePanel extends JPanel implements Observer {
             
             g.drawImage(sakippoImage,
                         (int)upperDokan.getX() - 2,
-                        (int)upperDokan.getY() + (int)upperDokan.getHeight(),
+                        (int)upperDokan.getY() + (int)upperDokan.getHeight()-20,
                         (int)upperDokan.getWidth() + 5,
                         20,
                         this);

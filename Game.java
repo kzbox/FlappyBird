@@ -11,10 +11,10 @@ class GamePanel extends JPanel implements Observer {
     JButton b2 = new JButton("NO");
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
-    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
-    private Image sitadokanImage = Toolkit.getDefaultToolkit().getImage("../images/sitadokan.png");
-    private Image uedokanImage = Toolkit.getDefaultToolkit().getImage("../images/uedokan.png");
-    private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/startview.jpg");
+    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");
+    private Image dokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokannmiki.png");
+    private Image sakippoImage = Toolkit.getDefaultToolkit().getImage("../images/dokannsaki.png");
+    private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -33,6 +33,7 @@ class GamePanel extends JPanel implements Observer {
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         g.drawImage(haikeiImage,
                     0,
                     0,
@@ -48,28 +49,43 @@ class GamePanel extends JPanel implements Observer {
         for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
             //model.getUpperDokan().get(i).draw(g);
             Dokan upperDokan = model.getUpperDokan().get(i);
-            g.drawImage(uedokanImage,
+            g.drawImage(dokanImage,
                         (int)upperDokan.getX(),
                         (int)upperDokan.getY(),
                         (int)upperDokan.getWidth(),
                         (int)upperDokan.getHeight(),
                         this);
+            
+            g.drawImage(sakippoImage,
+                        (int)upperDokan.getX() - 2,
+                        (int)upperDokan.getY() + (int)upperDokan.getHeight()-20,
+                        (int)upperDokan.getWidth() + 5,
+                        20,
+                        this);
 
             //model.getLowerDokan().get(i).draw(g);
             Dokan lowerDokan = model.getLowerDokan().get(i);
-            g.drawImage(sitadokanImage,
+            g.drawImage(dokanImage,
                         (int)lowerDokan.getX(),
                         (int)lowerDokan.getY(),
                         (int)lowerDokan.getWidth(),
                         (int)lowerDokan.getHeight(),
                         this);
+
+            g.drawImage(sakippoImage,
+                        (int)lowerDokan.getX() - 2,
+                        (int)lowerDokan.getY(),
+                        (int)lowerDokan.getWidth() + 5,
+                        20,
+                        this);
         }
         g.setColor(Color.black);
+        g.fillRect(0, getSize().height-20, getSize().width, 20);
         if(model.getGameOverFlag()){
-            g.fillRect(model.SCREEN_WIDTH/4, model.SCREEN_HEIGHT/8, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/4);
-            b.setBounds(model.SCREEN_WIDTH/4 + model.SCREEN_WIDTH/12,240,60,30);
-            b2.setBounds(model.SCREEN_WIDTH/2,240,60,30);
-            l.setBounds((model.SCREEN_WIDTH/2)-(model.SCREEN_WIDTH/12), model.SCREEN_HEIGHT/6, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/12);
+            g.fillRect(getSize().width/4, getSize().height/8, getSize().width/2, getSize().height/4);
+            b.setBounds(getSize().width/4 + getSize().width/12,200,60,30);
+            b2.setBounds(getSize().width/2,200,60,30);
+            l.setBounds((getSize().width/2)-(getSize().width/12), getSize().height/6, getSize().width/2, getSize().height/12);
             l.setForeground(Color.white);
             this.add(b);
             this.add(b2);

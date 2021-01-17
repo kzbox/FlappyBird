@@ -55,6 +55,7 @@ class StartPanel extends JPanel {
         d.setForeground(Color.BLUE);
         d.setFont(new Font("SERIF", Font.BOLD | Font.ITALIC, 28));
 
+
         img = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
 
         img2 = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");

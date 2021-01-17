@@ -33,6 +33,7 @@ class GamePanel extends JPanel implements Observer {
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         g.drawImage(haikeiImage,
                     0,
                     0,
@@ -79,11 +80,12 @@ class GamePanel extends JPanel implements Observer {
                         this);
         }
         g.setColor(Color.black);
+        g.fillRect(0, getSize().height-20, getSize().width, 20);
         if(model.getGameOverFlag()){
-            g.fillRect(model.SCREEN_WIDTH/4, model.SCREEN_HEIGHT/8, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/4);
-            b.setBounds(model.SCREEN_WIDTH/4 + model.SCREEN_WIDTH/12,240,60,30);
-            b2.setBounds(model.SCREEN_WIDTH/2,240,60,30);
-            l.setBounds((model.SCREEN_WIDTH/2)-(model.SCREEN_WIDTH/12), model.SCREEN_HEIGHT/6, model.SCREEN_WIDTH/2, model.SCREEN_HEIGHT/12);
+            g.fillRect(getSize().width/4, getSize().height/8, getSize().width/2, getSize().height/4);
+            b.setBounds(getSize().width/4 + getSize().width/12,200,60,30);
+            b2.setBounds(getSize().width/2,200,60,30);
+            l.setBounds((getSize().width/2)-(getSize().width/12), getSize().height/6, getSize().width/2, getSize().height/12);
             l.setForeground(Color.white);
             this.add(b);
             this.add(b2);

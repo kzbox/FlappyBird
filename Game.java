@@ -80,7 +80,7 @@ class GamePanel extends JPanel implements Observer {
                         this);
         }
         g.setColor(Color.black);
-        g.fillRect(0, getSize().height-20, getSize().width, 20);
+        g.fillRect(0, model.SCREEN_HEIGHT-120, model.SCREEN_WIDTH, model.SCREEN_HEIGHT);
         if(model.getGameOverFlag()){
             g.fillRect(getSize().width/4, getSize().height/8, getSize().width/2, getSize().height/4);
             b.setBounds(getSize().width/4 + getSize().width/12,200,60,30);

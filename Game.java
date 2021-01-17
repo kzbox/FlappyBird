@@ -12,8 +12,8 @@ class GamePanel extends JPanel implements Observer {
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
     private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
-    private Image sitadokanImage = Toolkit.getDefaultToolkit().getImage("../images/sitadokan.png");
-    private Image uedokanImage = Toolkit.getDefaultToolkit().getImage("../images/uedokan.png");
+    private Image dokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokannmiki.png");
+    private Image sakippoImage = Toolkit.getDefaultToolkit().getImage("../images/dokannsaki.png");
     private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/startview.jpg");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
@@ -48,20 +48,34 @@ class GamePanel extends JPanel implements Observer {
         for(i = 0; i < ModelObservable.DOKAN_BUF; i++){
             //model.getUpperDokan().get(i).draw(g);
             Dokan upperDokan = model.getUpperDokan().get(i);
-            g.drawImage(uedokanImage,
+            g.drawImage(dokanImage,
                         (int)upperDokan.getX(),
                         (int)upperDokan.getY(),
                         (int)upperDokan.getWidth(),
                         (int)upperDokan.getHeight(),
                         this);
+            
+            g.drawImage(sakippoImage,
+                        (int)upperDokan.getX() - 2,
+                        (int)upperDokan.getY() + (int)upperDokan.getHeight(),
+                        (int)upperDokan.getWidth() + 5,
+                        20,
+                        this);
 
             //model.getLowerDokan().get(i).draw(g);
             Dokan lowerDokan = model.getLowerDokan().get(i);
-            g.drawImage(sitadokanImage,
+            g.drawImage(dokanImage,
                         (int)lowerDokan.getX(),
                         (int)lowerDokan.getY(),
                         (int)lowerDokan.getWidth(),
                         (int)lowerDokan.getHeight(),
+                        this);
+
+            g.drawImage(sakippoImage,
+                        (int)lowerDokan.getX() - 2,
+                        (int)lowerDokan.getY(),
+                        (int)lowerDokan.getWidth() + 5,
+                        20,
                         this);
         }
         g.setColor(Color.black);

@@ -120,7 +120,7 @@ class ModelObservable extends Observable implements ActionListener{
         return false;
     }
     private boolean isGameOver(){
-        if(bird.getY() > SCREEN_HEIGHT){
+        if(bird.getLowY() > SCREEN_HEIGHT-120){
             return true;
         }
         return isIn();

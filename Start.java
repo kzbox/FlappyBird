@@ -13,7 +13,7 @@ class StartPanel extends JPanel {
     Image img;
     String high_score;
 
-    public void Score(){
+    public String score(){
         try{
             File file = new File("../log/high_score.txt");
             if(file.exists()){
@@ -27,6 +27,7 @@ class StartPanel extends JPanel {
         }catch(IOException e){
             System.out.println(e);
         }
+        return high_score;
     }
 
     public StartPanel(ModelObservable mo, StartController co){
@@ -49,6 +50,7 @@ class StartPanel extends JPanel {
 
         img = Toolkit.getDefaultToolkit().getImage("../images/startview.jpg");
 
+        high_score = score();
         score = new JLabel("HIGH SCORE:" + high_score);
         score.setBounds(130, 600, 200, 50);
         score.setForeground(Color.RED);

@@ -48,7 +48,7 @@ class StartPanel extends JPanel {
         c.setForeground(Color.RED);
         c.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 24));
 
-        img = Toolkit.getDefaultToolkit().getImage("../images/startview.jpg");
+        img = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
 
         high_score = score();
         score = new JLabel("HIGH SCORE:" + high_score);

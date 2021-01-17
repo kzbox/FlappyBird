@@ -11,10 +11,10 @@ class GamePanel extends JPanel implements Observer {
     JButton b2 = new JButton("NO");
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
-    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird_yatsugashira.png");
+    private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");
     private Image dokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokannmiki.png");
     private Image sakippoImage = Toolkit.getDefaultToolkit().getImage("../images/dokannsaki.png");
-    private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/startview.jpg");
+    private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;

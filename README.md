@@ -10,4 +10,3 @@ classフォルダに移動して`java FlappyBird`を実行
 
 ## クレジット
 音楽・SE：魔王魂
-画像：

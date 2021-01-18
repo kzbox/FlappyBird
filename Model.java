@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.io.*;
+import javax.sound.sampled.*;
+import java.net.MalformedURLException;
 
 // Model
 abstract class Thing {
@@ -32,7 +34,7 @@ class Bird extends Thing {
     // 定数
     public final static double V0 = 49; // 鳥の上向きの初速
     public final static double GRAVITY = 23; // 鳥に働く重力
-    public final static int BIRD_WIDTH = 45, BIRD_HEIGHT = 45; // 鳥の大きさ
+    public final static int BIRD_WIDTH = 60, BIRD_HEIGHT = 60; // 鳥の大きさ
     // フィールド
     private double y0; // クリックした鳥の高さ
     // コンストラクタ
@@ -86,6 +88,8 @@ class ModelObservable extends Observable implements ActionListener{
     private int score;
     private java.util.Random rand = new java.util.Random();
     private int dokanTail;
+    private Clip click = createClip(new File("../audio/click3.wav"), (float)0.05);
+    private Clip bgm = createClip(new File("../audio/bgm2.wav"), (float)0.1);
     // コンストラクタ
     public ModelObservable(){
         timer = new javax.swing.Timer(1000/FPS, this);
@@ -215,6 +219,35 @@ class ModelObservable extends Observable implements ActionListener{
             }
         }
     }
+    private void controlByLinearScalar(FloatControl vol, double linearScalar){
+        vol.setValue((float)Math.log10(linearScalar) * 20);
+    }
+    private Clip createClip(File path, float vol){
+        //指定されたURLのオーディオ入力ストリームを取得
+		try (AudioInputStream ais = AudioSystem.getAudioInputStream(path)){
+			//ファイルの形式取得
+			AudioFormat af = ais.getFormat();
+			//単一のオーディオ形式を含む指定した情報からデータラインの情報オブジェクトを構築
+			DataLine.Info dataLine = new DataLine.Info(Clip.class,af);
+			//指定された Line.Info オブジェクトの記述に一致するラインを取得
+            Clip c = (Clip)AudioSystem.getLine(dataLine);
+			//再生準備完了
+			c.open(ais);
+            // 音量調整
+            FloatControl volume = (FloatControl)c.getControl(FloatControl.Type.MASTER_GAIN);
+            controlByLinearScalar(volume, vol);
+			return c;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
     // publicメソッド
     public void init(){
         bird = new Bird(SCREEN_WIDTH/2 - Bird.BIRD_WIDTH/2, SCREEN_HEIGHT/2 - Bird.BIRD_HEIGHT/2);
@@ -233,9 +266,21 @@ class ModelObservable extends Observable implements ActionListener{
     public void flyBird(){
         if(gameOverFlag == false){
             startFlag = true;
+            bird.setY0asY();
+            time = 0;
+            try {
+                play(click);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-        bird.setY0asY();
-        time = 0;
+    }
+    public void play(Clip c) throws Exception{
+        c.stop();
+        c.flush();
+        c.setFramePosition(0);
+        Thread.sleep(10);
+        c.start();
     }
     // getter
     public boolean getGameOverFlag(){
@@ -266,10 +311,14 @@ class ModelObservable extends Observable implements ActionListener{
             calcBirdPos();
             updateDokan();
             calcScore();
+            bgm.start();
             if(isGameOver()){
                 gameOverFlag = true;
                 startFlag = false;
                 writeScore();
+                bgm.stop();
+                bgm.flush();
+                bgm.setFramePosition(0);
             }
         }
         setChanged();

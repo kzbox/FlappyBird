@@ -82,11 +82,15 @@ class GamePanel extends JPanel implements Observer {
         g.setColor(new Color(87, 65, 41));
         g.fillRect(0, model.SCREEN_HEIGHT-60, model.SCREEN_WIDTH, model.SCREEN_HEIGHT);
         if(model.getGameOverFlag()){
-            g.fillRect(getSize().width/4, getSize().height/8, getSize().width/2, getSize().height/4);
-            b.setBounds(getSize().width/4 + getSize().width/12,200,60,30);
-            b2.setBounds(getSize().width/2,200,60,30);
-            l.setBounds((getSize().width/2)-(getSize().width/12), getSize().height/6, getSize().width/2, getSize().height/12);
+            g.setColor(Color.BLACK);
+            g.fillRect(getSize().width/4 - 20, getSize().height/8, getSize().width/2 + 50, getSize().height/4);
+            b.setBounds(getSize().width/4 + getSize().width/16,200,60,30);
+            b.setFont(new Font("MS ゴシック", Font.BOLD, 10));
+            b2.setBounds(getSize().width/2 + getSize().width/12,200,60,30);
+            b2.setFont(new Font("MS ゴシック", Font.BOLD, 10));
+            l.setBounds(getSize().width/4 + getSize().width/12, getSize().height/6, getSize().width/2, getSize().height/12);
             l.setForeground(Color.white);
+            l.setFont(new Font("MS ゴシック", Font.BOLD, 25));
             this.add(b);
             this.add(b2);
             this.add(l);

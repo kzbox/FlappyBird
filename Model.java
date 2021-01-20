@@ -73,7 +73,7 @@ class ModelObservable extends Observable implements ActionListener{
     // private定数
     private final static int HABA = 180;
     // public定数
-    public final static int SCREEN_WIDTH = 400, SCREEN_HEIGHT = 800;
+    public final static int SCREEN_WIDTH = 460, SCREEN_HEIGHT = 800;
     public final static int DOKAN_BUF = 5; // 土管が同時に表示される数
     public final static int FPS = 100;
     public final static int SPEED = 2;
@@ -168,28 +168,41 @@ class ModelObservable extends Observable implements ActionListener{
         }
     }
     private void makeLogFile(File folder, File file){
-        if(folder.mkdir() == true){
+        if(!folder.exists() && folder.mkdir() == true){
             System.out.print("フォルダ作成成功");
         }
         else{
             System.out.print("フォルダ作成失敗");
         }
         System.out.println(folder.getPath());
+        if(file.exists()) return;
         try{
             file.createNewFile();
             System.out.print("ファイル作成成功: ");
             System.out.println(file.getPath());
+            write(file, "0");
         }
         catch(IOException e){
             System.out.print("ファイル作成失敗: ");
             System.out.println(file.getPath());
         }
     }
+    private boolean write(File file, String str){
+        try{
+            FileWriter filewriter = new FileWriter(file);
+            filewriter.write(str);
+            
+            filewriter.close();
+        }
+        catch(IOException e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
     private void writeScore(){
         File file = new File("../log/high_score.txt");
-        File folder = new File("../log");
         int high_score = 0;
-        makeLogFile(folder, file);
         if(file.exists() == true && file.length() > 0){
             try{
                 FileReader filereader = new FileReader(file);
@@ -208,15 +221,7 @@ class ModelObservable extends Observable implements ActionListener{
             System.out.println("ファイルが存在しない or ファイルが空");
         }
         if(high_score < score){
-            try{
-                FileWriter filewriter = new FileWriter(file);
-                filewriter.write(String.valueOf(score));
-                
-                filewriter.close();
-            }
-            catch(IOException e){
-                System.out.println(e);
-            }
+            write(file, String.valueOf(score));
         }
     }
     private void controlByLinearScalar(FloatControl vol, double linearScalar){
@@ -262,6 +267,7 @@ class ModelObservable extends Observable implements ActionListener{
         gameOverFlag = false;
         score = 0;
         scoreFlag = false;
+        makeLogFile(new File("../log"), new File("../log/high_score.txt"));
     }
     public void flyBird(){
         if(gameOverFlag == false){

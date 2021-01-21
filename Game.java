@@ -13,6 +13,7 @@ class GamePanel extends JPanel implements Observer {
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
     JLabel score1;
+    JLabel score2;
     private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");
     private Image dokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokannmiki.png");
     private Image sakippoImage = Toolkit.getDefaultToolkit().getImage("../images/dokannsaki.png");
@@ -39,14 +40,21 @@ class GamePanel extends JPanel implements Observer {
         score1 = new JLabel("SCORE:" + model.getScore());
         score1.setFont(new Font("Arial", Font.ITALIC, 18));
         score1.setForeground(Color.white);
+        score2 = new JLabel("SCORE:" + model.getScore());
+        score2.setFont(new Font("Arial", Font.ITALIC, 18));
+        score2.setForeground(Color.white);
     }
 
     public void scoreupdate(){
         score1.setText("SCORE:" + model.getScore());
+        score2.setText("SCORE:" + model.getScore());
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        scoreupdate();
+        score2.setBounds(getSize().width*5/7, 10, getSize().width, getSize().height/12);
+        this.add(score2);
         g.drawImage(haikeiImage,
                     0,
                     0,
@@ -149,6 +157,7 @@ class GameController implements MouseListener, KeyListener,ActionListener{
     public void actionPerformed(ActionEvent ev){
         if(ev.getSource()==panel.b){
         panel.remove(panel.score1);
+        panel.remove(panel.score2);
         panel.remove(panel.b);
         panel.remove(panel.b2);
         panel.remove(panel.l);
@@ -161,6 +170,7 @@ class GameController implements MouseListener, KeyListener,ActionListener{
         }
     }else if(ev.getSource()==panel.b2){
         layout.show(cardPanel, "start");
+        panel.remove(panel.score1);
         panel.remove(panel.score1);
         panel.remove(panel.b);
         panel.remove(panel.b2);

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.io.*;
 
 // View
 class GamePanel extends JPanel implements Observer {
@@ -11,10 +12,12 @@ class GamePanel extends JPanel implements Observer {
     JButton b2 = new JButton("NO");
     JButton b = new JButton("YES");
     JLabel l = new JLabel("CONTINUE?");
+    JLabel score1;
     private Image birdImage = Toolkit.getDefaultToolkit().getImage("../images/bird1.3.png");
     private Image dokanImage = Toolkit.getDefaultToolkit().getImage("../images/dokannmiki.png");
     private Image sakippoImage = Toolkit.getDefaultToolkit().getImage("../images/dokannsaki.png");
     private Image haikeiImage = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
+
     public GamePanel(ModelObservable mo, GameController co){
         this.setBackground(Color.WHITE);
         model = mo;
@@ -29,11 +32,21 @@ class GamePanel extends JPanel implements Observer {
         // b.setOpaque(true);
         b.setBackground(Color.PINK);
         b2.setBackground(Color.PINK);
+        l.setForeground(Color.white);
+        b.setFont(new Font("MS ゴシック", Font.BOLD, 12));
+        b2.setFont(new Font("MS ゴシック", Font.BOLD, 12));
+        l.setFont(new Font("MS ゴシック", Font.BOLD, 22));
+        score1 = new JLabel("SCORE:" + model.getScore());
+        score1.setFont(new Font("Arial", Font.ITALIC, 18));
+        score1.setForeground(Color.white);
     }
-    
+
+    public void scoreupdate(){
+        score1.setText("SCORE:" + model.getScore());
+    }
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         g.drawImage(haikeiImage,
                     0,
                     0,
@@ -82,18 +95,17 @@ class GamePanel extends JPanel implements Observer {
         g.setColor(new Color(87, 65, 41));
         g.fillRect(0, model.SCREEN_HEIGHT-60, model.SCREEN_WIDTH, model.SCREEN_HEIGHT);
         if(model.getGameOverFlag()){
-            g.setColor(Color.BLACK);
-            g.fillRect(getSize().width/4 - 20, getSize().height/8, getSize().width/2 + 50, getSize().height/4);
-            b.setBounds(getSize().width/4 + getSize().width/16,200,60,30);
-            b.setFont(new Font("MS ゴシック", Font.BOLD, 10));
-            b2.setBounds(getSize().width/2 + getSize().width/12,200,60,30);
-            b2.setFont(new Font("MS ゴシック", Font.BOLD, 10));
-            l.setBounds(getSize().width/4 + getSize().width/12, getSize().height/6, getSize().width/2, getSize().height/12);
-            l.setForeground(Color.white);
-            l.setFont(new Font("MS ゴシック", Font.BOLD, 25));
+            g.fillRect(getSize().width*2/9, getSize().height/6, getSize().width*5/9, getSize().height/3);
+            b.setBounds(getSize().width/4 + getSize().width/12,getSize().height*2/5,60,30);
+            b2.setBounds(getSize().width/2,getSize().height*2/5,60,30);
+            l.setBounds(getSize().width/3, getSize().height/5, getSize().width, getSize().height/12);
+            score1.setBounds(getSize().width*3/10, getSize().height/5, 
+            getSize().width, getSize().height/5);
+            scoreupdate();
             this.add(b);
             this.add(b2);
             this.add(l);
+            this.add(score1);
         }
         
     }
@@ -136,6 +148,7 @@ class GameController implements MouseListener, KeyListener,ActionListener{
     public void keyTyped(KeyEvent e){ }
     public void actionPerformed(ActionEvent ev){
         if(ev.getSource()==panel.b){
+        panel.remove(panel.score1);
         panel.remove(panel.b);
         panel.remove(panel.b2);
         panel.remove(panel.l);
@@ -148,6 +161,7 @@ class GameController implements MouseListener, KeyListener,ActionListener{
         }
     }else if(ev.getSource()==panel.b2){
         layout.show(cardPanel, "start");
+        panel.remove(panel.score1);
         panel.remove(panel.b);
         panel.remove(panel.b2);
         panel.remove(panel.l);

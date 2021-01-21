@@ -36,7 +36,8 @@ class StartPanel extends JPanel {
         cont = co;
         this.setLayout(null);
         b = new JButton("プレイする");
-        b.setFont(new Font("MS ゴシック", Font.BOLD, 24));
+        b.setBackground(new Color(0x00D9FF));
+        b.setFont(new Font("MS ゴシック", Font.BOLD, ModelObservable.SCREEN_WIDTH/10));
         b.setBounds(ModelObservable.SCREEN_WIDTH/7, ModelObservable.SCREEN_HEIGHT/2, 
                     ModelObservable.SCREEN_WIDTH*5/7, ModelObservable.SCREEN_HEIGHT/5);
         b.setForeground(Color.RED);
@@ -44,16 +45,16 @@ class StartPanel extends JPanel {
         b.addActionListener(cont);
         b.setActionCommand("start game");
         c = new JLabel("FlappyBird");
-        c.setBounds(ModelObservable.SCREEN_WIDTH/7, ModelObservable.SCREEN_HEIGHT/6, 
+        c.setBounds(ModelObservable.SCREEN_WIDTH/8, ModelObservable.SCREEN_HEIGHT/6, 
                     ModelObservable.SCREEN_WIDTH*5/7, ModelObservable.SCREEN_HEIGHT/4);
         c.setForeground(Color.BLUE);
-        c.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
+        c.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 50));
 
         d = new JLabel("～幸せを運ぶ青い鳥～");
-        d.setBounds(ModelObservable.SCREEN_WIDTH/5, ModelObservable.SCREEN_HEIGHT/4, 
+        d.setBounds(ModelObservable.SCREEN_WIDTH/6, ModelObservable.SCREEN_HEIGHT/4, 
                     ModelObservable.SCREEN_WIDTH*4/5, ModelObservable.SCREEN_HEIGHT/4);
         d.setForeground(Color.BLUE);
-        d.setFont(new Font("SERIF", Font.BOLD | Font.ITALIC, 28));
+        d.setFont(new Font("SERIF", Font.BOLD | Font.ITALIC, 32));
 
 
         img = Toolkit.getDefaultToolkit().getImage("../images/sunset.jpg");
@@ -62,7 +63,7 @@ class StartPanel extends JPanel {
 
         score();
         score = new JLabel("HIGH SCORE:" + high_score);
-        score.setFont(new Font("Arial", Font.ITALIC, 24));
+        score.setFont(new Font("Arial", Font.BOLD, 24));
         score.setBounds(ModelObservable.SCREEN_WIDTH/5, ModelObservable.SCREEN_HEIGHT*3/4, 
                         ModelObservable.SCREEN_WIDTH*4/5, ModelObservable.SCREEN_HEIGHT/5);
         score.setForeground(Color.RED);

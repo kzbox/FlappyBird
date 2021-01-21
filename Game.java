@@ -106,8 +106,8 @@ class GamePanel extends JPanel implements Observer {
             g.fillRect(getSize().width*2/9, getSize().height/6, getSize().width*5/9, getSize().height/3);
             b.setBounds(getSize().width/4 + getSize().width/12,getSize().height*2/5,60,30);
             b2.setBounds(getSize().width/2,getSize().height*2/5,60,30);
-            l.setBounds(getSize().width/3, getSize().height/5, getSize().width, getSize().height/12);
-            score1.setBounds(getSize().width*3/10, getSize().height/5, 
+            l.setBounds(getSize().width/3, getSize().height/5 + 10, getSize().width, getSize().height/12);
+            score1.setBounds(getSize().width*2/5 - 15, getSize().height/5, 
             getSize().width, getSize().height/5);
             scoreupdate();
             this.add(b);

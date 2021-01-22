@@ -41,7 +41,7 @@ class FlappyBird extends JFrame {
         frame.setSize(ModelObservable.SCREEN_WIDTH, ModelObservable.SCREEN_HEIGHT);
         frame.setTitle("Play FlappyBird");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setFocusable(true); // キーが効かなくなったから追加したが効果はなかった。
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }

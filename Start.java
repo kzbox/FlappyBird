@@ -40,8 +40,8 @@ class StartPanel extends JPanel {
         b.setFont(new Font("MS ゴシック", Font.BOLD, ModelObservable.SCREEN_WIDTH/10));
         b.setBounds(ModelObservable.SCREEN_WIDTH/7, ModelObservable.SCREEN_HEIGHT/2, 
                     ModelObservable.SCREEN_WIDTH*5/7, ModelObservable.SCREEN_HEIGHT/5);
-        b.setForeground(Color.RED);
-        //b.setBackground(Color.WHITE);
+        b.setForeground(Color.BLACK);
+        // b.setBackground(Color.WHITE);
         b.addActionListener(cont);
         b.setActionCommand("start game");
         c = new JLabel("FlappyBird");
@@ -66,7 +66,7 @@ class StartPanel extends JPanel {
         score.setFont(new Font("Arial", Font.BOLD, 24));
         score.setBounds(ModelObservable.SCREEN_WIDTH/5, ModelObservable.SCREEN_HEIGHT*3/4, 
                         ModelObservable.SCREEN_WIDTH*4/5, ModelObservable.SCREEN_HEIGHT/5);
-        score.setForeground(Color.RED);
+        score.setForeground(Color.DARK_GRAY);
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
